@@ -1,0 +1,45 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Builds
+dist/
+build/
+.parcel-cache/
+.turbo/
+.next/
+out/
+
+# Env & local config
+.env
+.env.local
+.env.*.local
+.DS_Store
+thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Logs
+logs
+*.log
+*.log.*
+
+# Coverage
+coverage/
+
+# Data folders (can be large)
+data/music/
+data/staging/
+
+# Vite
+music-ui/node_modules/
+music-ui/dist/
+music-ui/.vite/
+
+

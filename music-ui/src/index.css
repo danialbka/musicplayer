@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #0a0a0a; /* matches bg-neutral-950 closely */
+  color: #e5e5e5; /* matches text-neutral-200-ish */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

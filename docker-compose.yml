@@ -1,0 +1,58 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: music_redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: music_api
+    environment:
+      - NODE_ENV=production
+    env_file: .env
+    depends_on:
+      - redis
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/music:/data/music
+      - ./data/staging:/data/staging
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: music_worker
+    command: ["node", "dist/queue/worker.js"]
+    environment:
+      - NODE_ENV=production
+    env_file: .env
+    depends_on:
+      - redis
+    volumes:
+      - ./data/music:/data/music
+      - ./data/staging:/data/staging
+
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: music_navidrome
+    restart: unless-stopped
+    environment:
+      - ND_MUSICFOLDER=/music
+      - ND_SCANSCHEDULE=1h
+      - ND_LOGLEVEL=info
+      - ND_SESSIONTIMEOUT=24h
+      - ND_TRANSCODINGCACHESIZE=500MB
+    volumes:
+      - ./data/music:/music
+      - navidrome_data:/data
+    ports:
+      - "4533:4533"
+
+volumes:
+  navidrome_data: {}
