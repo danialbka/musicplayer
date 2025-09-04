@@ -10,7 +10,7 @@ export type MusicQuery = {
 };
 
 export type RawHit = {
-  source: "archive" | "local" | "custom";
+  source: "archive" | "local" | "custom" | "youtube";
   kind: "track" | "album";
   title: string;
   artist?: string;

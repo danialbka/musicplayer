@@ -8,7 +8,7 @@ A modular, legal‑first "Cocoscrapers‑for‑music" engine that searches provi
 - **Fastify** API (`/search`, `/resolve`, `/ingest`)
 - **BullMQ + Redis** for ingest jobs
 - **Navidrome** to serve the final music library (optional but included in Docker)
-- Internet Archive adapter (more adapters can be added later)
+- **Adapters**: Internet Archive and YouTube (via `yt-dlp`)
 
 ## Quick start (Docker)
 ```bash
@@ -24,6 +24,14 @@ docker compose up --build
 - Redis: for queues
 - The Navidrome library folder is mounted at `./data/music` on your host (edit in compose file).
 
+## Environment
+These environment variables are supported (see `.env.example`):
+
+- `PORT` – API port. Default: `8080`.
+- `REDIS_URL` – Redis connection string. In Docker Compose use `redis://redis:6379`; locally: `redis://localhost:6379`.
+- `MUSIC_DIR` – Destination music library path. In Docker use `/data/music` (mounted to `./data/music`).
+- `STAGING_DIR` – Temporary downloads path. In Docker use `/data/staging` (mounted to `./data/staging`).
+
 ## How to use
 
 ### Option A: Run everything with Docker (recommended)
@@ -35,7 +43,7 @@ docker compose up --build
 4. In Navidrome (`http://localhost:4533`), set up the admin account and confirm the library path is `/music` (already mounted to `./data/music`). New ingested tracks will appear after scans.
 
 ### Option B: Local development (API + Worker locally, infra via Docker)
-Prereqs: Node 20+, Docker (for Redis and optional Navidrome)
+Prereqs: Node 20+, Docker (for Redis and optional Navidrome). If you want YouTube search/resolve locally without Docker, install `yt-dlp` and `ffmpeg` on your machine and ensure they are in your `PATH`.
 
 1. Install deps
 ```bash
